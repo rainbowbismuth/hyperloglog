@@ -11,10 +11,11 @@
 
 namespace emi {
 
-    template<typename T, typename Hash=std::hash<T>, int b=7>
+    template<typename T, typename Hash=std::hash<T>, int b = 7>
     class HyperLogLogCtx {
         static constexpr int m = 1 << b;
         static constexpr int mask = m - 1;
+
         static constexpr double a_m() {
             if (m <= 31) {
                 return 0.673;
@@ -27,6 +28,7 @@ namespace emi {
             }
             return 0.7213 / (1 + 1.079 / m);
         }
+
         static constexpr double mSquared = m * m;
 
         Hash hash;
@@ -66,7 +68,7 @@ namespace emi {
         }
     };
 
-    template<typename InputIterator, typename Hash=std::hash<typename InputIterator::value_type>, int b=7>
+    template<typename InputIterator, typename Hash=std::hash<typename InputIterator::value_type>, int b = 7>
     double HyperLogLog(InputIterator first, InputIterator last) {
         HyperLogLogCtx<typename InputIterator::value_type, Hash, b> ctx;
         std::for_each(first, last, [&](auto &i) { ctx.add(i); });
