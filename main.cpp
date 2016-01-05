@@ -1,7 +1,15 @@
 #include <iostream>
+#include <assert.h>
 #include "hyperloglog.h"
 
 int main() {
+    {
+        // Silly test that shouldn't work that well
+        std::string s("Hello, world!");
+        auto distinct = emi::HyperLogLog(s.begin(), s.end());
+        assert(distinct >= 9.0 && distinct <= 11.0);
+    }
+
     emi::HyperLogLogCtx<std::string> ctx;
     std::string input;
     while (std::cin) {
