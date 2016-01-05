@@ -42,7 +42,7 @@ namespace emi {
         void add(const T &t) noexcept {
             uint32_t x = hash(t);
             uint32_t j = x & mask;
-            uint32_t w = __builtin_clz(x | mask);
+            uint32_t w = __builtin_clz(x | mask) + 1;
             registers[j] = std::max(registers[j], w);
         }
 
