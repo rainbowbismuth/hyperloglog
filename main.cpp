@@ -1,19 +1,13 @@
 #include <iostream>
-#include <assert.h>
+#include <fstream>
 #include "hyperloglog.h"
 
 int main() {
-    {
-        // Silly test that shouldn't work that well
-        std::string s("Hello, world!");
-        auto distinct = emi::HyperLogLog(s.begin(), s.end());
-        assert(distinct >= 9.0 && distinct <= 11.0);
-    }
-
     emi::HyperLogLogCtx<std::string> ctx;
+    std::ifstream ifs("/usr/share/dict/words");
     std::string input;
-    while (std::cin) {
-        std::getline(std::cin, input);
+    while (ifs) {
+        std::getline(ifs, input);
         ctx.add(input);
     }
     auto distinct = ctx.finish();

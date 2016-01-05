@@ -49,7 +49,8 @@ namespace emi {
         double finish() const noexcept {
             double sum = 0;
             for (int i = 0; i < m; ++i) {
-                sum += std::pow(2, -registers[i]);
+                double exp = registers[i];
+                sum += std::pow(2.0, -exp);
             }
             double e = a_m() * mSquared * std::pow(sum, -1);
 
