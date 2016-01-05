@@ -14,6 +14,7 @@ namespace emi {
     template<typename T, typename Hash=std::hash<T>, int b=7>
     class HyperLogLogCtx {
         static constexpr int m = 1 << b;
+        static constexpr int mask = m - 1;
         static constexpr double a_m() {
             if (m <= 31) {
                 return 0.673;
@@ -38,8 +39,8 @@ namespace emi {
 
         void add(const T &t) noexcept {
             uint32_t x = hash(t);
-            uint32_t j = x % m;
-            uint32_t w = __builtin_clz(x);
+            uint32_t j = x & mask;
+            uint32_t w = __builtin_clz(x | mask);
             registers[j] = std::max(registers[j], w);
         }
 
