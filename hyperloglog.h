@@ -19,7 +19,7 @@ namespace emi {
         static constexpr double mSquared = m * m;
 
         Hash hash;
-        std::array<size_t, m> registers;
+        std::array<uint32_t, m> registers;
 
     public:
         HyperLogLogCtx() noexcept {
@@ -27,9 +27,9 @@ namespace emi {
         }
 
         void add(const T &t) noexcept {
-            size_t x = hash(t);
-            size_t j = x % m;
-            size_t w = __builtin_clz(x);
+            uint32_t x = hash(t);
+            uint32_t j = x % m;
+            uint32_t w = __builtin_clz(x);
             registers[j] = std::max(registers[j], w);
         }
 
